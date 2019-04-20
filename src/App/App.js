@@ -20,7 +20,7 @@ class App extends Component {
   getFormData = () => {
     axios({
       method: 'GET',
-      url: '/data'
+      url: '/taco'
     })
     .then( (response) => {
       console.log( `GET works!` );
@@ -50,7 +50,7 @@ class App extends Component {
 
     axios({
       method: 'POST',
-      url: '/data',
+      url: '/taco',
       data: this.state.newForm
     })
     .then( (response) => {
@@ -68,6 +68,39 @@ class App extends Component {
       console.log( `Couldn't POST.`, error );
       alert(`Couldn't POST.`);
     })
+  }
+
+  // Nodemail!
+  // contact.jsx
+  sendEmail (name, email, message) {
+    fetch('/send', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: name,
+        email: email,
+        message: message
+      })
+    })
+    .then((res) => res.json())
+    .then((res) => {
+      console.log('here is the response: ', res);
+    })
+    .catch((err) => {
+      console.error('here is the error: ', err);
+    })
+  }
+
+  handleEmail = (event) => {
+    console.log( event.target.value );
+    let name = 'Hieu';
+    let email = '9makesthings@gmail.com';
+    let message = 'This is the message I\'d like to send.';
+
+    this.sendEmail( name, email, message );
   }
 
   render() {
@@ -93,6 +126,7 @@ class App extends Component {
                 <th>Name</th>
                 <th>Food</th>
                 <th>Animal</th>
+                <th>Email?</th>
               </tr>
             </thead>
             <tbody>
@@ -101,6 +135,9 @@ class App extends Component {
                       <td>{item.name}</td>
                       <td>{item.food}</td>
                       <td>{item.animal}</td>
+                      <td>
+                        <button onClick={this.handleEmail} value={item}>Send!</button>
+                      </td>
                     </tr>
                 )}
             </tbody>
