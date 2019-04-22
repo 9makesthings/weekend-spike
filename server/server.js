@@ -50,8 +50,9 @@ app.post('/send', function(req, res, next) {
     const mailOptions = {
       from: `${req.body.email}`,
       to: 'joh04971@gmail.com',
-      subject: `${req.body.name}`,
-      text: `${req.body.message}`,
+      subject: `${req.body.subject}`,
+      text: `${req.body.text}`,
+      html: `${req.body.html}`,
       replyTo: `${req.body.email}`
     };
     transporter.sendMail(mailOptions, function(err, res) {
